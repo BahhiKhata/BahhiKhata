@@ -9,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,21 +41,31 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="email"
-            placeholder="Email"
-            className="input w-full"
+            name="email"
+            autoComplete="email"
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
 
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            autoComplete="current-password"
             placeholder="Password"
-            className="input w-full"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="text-sm text-blue-600 mt-1"
+          >
+            {showPassword ? 'Hide password' : 'Show password'}
+          </button>
 
           <button className="btn btn-primary w-full" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}

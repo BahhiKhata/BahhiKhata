@@ -6,7 +6,7 @@ const cors = require('cors');
 const db = require('./config/db'); 
 
 const app = express();
-
+const expenseTypesRoutes = require('./routes/expenseTypes');
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -14,6 +14,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/expenses', require('./routes/expenses'));
+app.use('/api/expense-types', expenseTypesRoutes);
 
 // Health check
 app.get('/', (req, res) => {

@@ -1,458 +1,263 @@
+# 📒 Bahhi Khata — Expense Tracker (MVP)
 
+Bahhi Khata is a **minimal, clean, backend-first expense tracker** built to emphasize **correctness, ownership, and extensibility** over flashy features.
 
-📒 Bahhi Khata — Expense Tracker (MVP)
+This project intentionally avoids over-engineering and serves as a **strong foundation** for future expansion.
 
-Bahhi Khata is a minimal, clean expense tracker built with a custom backend and database, focusing on correctness, simplicity, and extensibility.
-This project intentionally avoids over-engineering and serves as a strong foundation for future features.
+---
 
-🚀 Tech Stack
-Frontend
+## 🚀 Tech Stack
 
-Next.js (Pages Router)
+### Frontend
+- ⚛️ **Next.js** (Pages Router)
+- ⚛️ **React**
+- 🌐 **Axios**
+- 🎨 **Tailwind CSS**
 
-React
+### Backend
+- 🟢 **Node.js**
+- 🚂 **Express.js**
+- 🗄️ **PostgreSQL**
+- 🔐 **JWT (JSON Web Tokens)**
+- 🔑 **bcrypt**
 
-Axios
+### Database
+- 🐘 **PostgreSQL (Local Development)**
 
-Tailwind CSS
+---
 
-Backend
+## 🧠 Tech Stack Explained (What does what?)
 
-Node.js
+### Next.js (Frontend)
+- File-based routing (`/login`, `/register`, `/expenses`)
+- UI state & navigation
+- Communicates with backend via REST APIs
 
-Express.js
+### Axios
+- Centralized API client
+- Automatically attaches JWT token
+- Keeps frontend–backend interaction clean
 
-PostgreSQL
+### Express.js (Backend)
+- Exposes REST APIs (`/auth`, `/expenses`, `/expense-types`)
+- Handles authentication & authorization
+- Acts as a middle layer between frontend and database
 
-JWT (JSON Web Tokens)
+### PostgreSQL
+- Stores users, expenses, and reference data
+- Enforces data integrity using constraints & foreign keys
 
-bcrypt
+### JWT (Authentication)
+- Generated on login
+- Stored in browser storage
+- Sent with every protected request
+- Verified by backend middleware
 
-Database
+### bcrypt
+- Secure password hashing
+- Safe password comparison during login
 
-PostgreSQL (Local Development)
+---
 
-🧠 Tech Stack Explained (What does what?)
-Next.js (Frontend)
+## 🔄 Program Flow (End-to-End)
 
-Handles routing (/login, /register, /expenses)
+### 1️⃣ User Registration
+- User submits name, email, password
+- Password is hashed using bcrypt
+- User stored in PostgreSQL
 
-Manages UI state and navigation
+### 2️⃣ User Login
+- Credentials verified
+- JWT token generated
+- Token returned to frontend
 
-Communicates with backend via REST APIs
+### 3️⃣ Authenticated Requests
+- JWT sent in `Authorization: Bearer <token>`
+- Backend middleware verifies token
+- User-specific data returned
 
-Uses pages/ routing (file-based routing)
+### 4️⃣ Expense Flow
+- User creates expense
+- Expense linked to user and expense type
+- Expenses fetched using JOIN queries
 
-Axios
+### 5️⃣ Logout
+- Token removed
+- Protected routes blocked
 
-Centralized API client (utils/api.js)
+---
 
-Automatically attaches JWT token to every request
+## 📁 Project Structure
 
-Keeps frontend-backend communication clean
-
-Express.js (Backend)
-
-Exposes REST APIs (/auth, /expenses)
-
-Handles authentication and authorization
-
-Acts as the middle layer between frontend and database
-
-PostgreSQL
-
-Stores users and expenses
-
-Ensures data integrity and persistence
-
-Connected via pg library using connection pooling
-
-JWT (Authentication)
-
-Generated on login
-
-Stored in browser localStorage
-
-Sent with every protected request
-
-Used by backend middleware to protect routes
-
-bcrypt
-
-Hashes passwords before storing in DB
-
-Compares hashed passwords securely during login
-
-🔄 Program Flow (End-to-End)
-1️⃣ User Registration
-
-User submits name, email, password
-
-Frontend sends request to POST /api/auth/register
-
-Backend:
-
-Hashes password
-
-Stores user in PostgreSQL
-
-User is redirected to login
-
-2️⃣ User Login
-
-User submits email & password
-
-Frontend sends request to POST /api/auth/login
-
-Backend:
-
-Verifies credentials
-
-Generates JWT token
-
-Token is stored in localStorage
-
-3️⃣ Authenticated Requests
-
-Axios interceptor attaches JWT automatically
-
-Backend middleware verifies token
-
-User-specific data is returned
-
-4️⃣ Expense Flow
-
-User accesses /expenses
-
-Frontend calls GET /api/expenses
-
-Backend:
-
-Extracts user from JWT
-
-Fetches expenses belonging to that user
-
-Data is rendered on UI
-
-5️⃣ Logout
-
-Token removed from localStorage
-
-User redirected to /login
-
-Protected routes are blocked
-
-📁 Project Structure
-Backend
+### Backend
 backend/
-│── server.js              # Entry point
+│── server.js # App entry point
 │── config/
-│   └── db.js              # PostgreSQL connection
+│ └── db.js # PostgreSQL connection
 │── routes/
-│   ├── auth.js            # Register & login APIs
-│   └── expenses.js        # Expense CRUD APIs
+│ ├── auth.js # Register & login
+│ ├── expenses.js # Expense CRUD
+│ └── expenseTypes.js # Read-only expense types
 │── middleware/
-│   └── auth.js            # JWT authentication middleware
-│── .env                   # Environment variables
+│ └── auth.js # JWT auth middleware
+│── .env # Environment variables
 
-Frontend
+
+### Frontend
 frontend/
 │── pages/
-│   ├── index.js           # Redirect logic
-│   ├── login.js           # Login page
-│   ├── register.js        # Register page
-│   ├── expenses.js        # Expense list (protected)
-│   └── add-expense.js     # Add expense form
+│ ├── index.js
+│ ├── login.js
+│ ├── register.js
+│ ├── expenses.js
+│ └── add-expense.js
 │── utils/
-│   └── api.js             # Axios instance
+│ └── api.js
 │── styles/
-│   └── globals.css
+│ └── globals.css
 
-✅ Current Features (MVP)
 
-User registration
+---
 
-User login
+## ✅ Phase 0 — Foundation (COMPLETED)
 
-JWT-based authentication
+🎯 **Goal:** Build a clean, correct base system.
 
-Protected routes
+### What was done
+- ✅ Local PostgreSQL setup
+- ✅ Core tables: users & expenses
+- ✅ Custom Express backend
+- ✅ JWT-based authentication
+- ✅ Secure password hashing
+- ✅ Frontend ↔ backend REST integration
+- ✅ Protected routes
+- ✅ User-specific data isolation
+- ✅ Removed Supabase & unnecessary abstractions
 
-Add expense
+### Outcome
+A **stable MVP** with full ownership of:
+- Backend logic
+- Authentication
+- Database design
 
-View expenses
+---
 
-User-specific data isolation
+## ✅ Phase 1 — Database Evolution & Structure (COMPLETED)
 
-Logout functionality
+🎯 **Goal:** Prepare database for future features without breaking simplicity.
 
-Clean frontend-backend separation
+### What was added
+- 🧱 **Expense Types (`expense_types`) reference table**
+- 🔗 Foreign-key relation: `expenses → expense_types`
+- 🗓️ Renamed `date` → `expense_date` (schema clarity)
+- 🧠 JOIN-based expense queries
+- 🧪 DB-level data validation:
+  - Positive amount constraint
+  - Valid user enforcement
+- ⚡ Performance indexes
+- 🔐 Auth-protected read-only Expense Types API
+- 🎨 UX improvements:
+  - Browser email autofill
+  - Show / hide password option
 
-⚠️ Note: This is intentionally a minimal MVP. No analytics, no charts, no automation yet.
+### Why this matters
+- Enables future filters & analytics
+- Prevents invalid data at DB level
+- No UI complexity added
+- Zero breaking changes
 
-🧹 Cleanup & Decisions Made
+---
 
-Things intentionally removed or avoided:
+## 🛠️ Environment Variables
 
-Supabase (fully replaced with custom backend)
-
-CSV import
-
-Auto/UPI parsing
-
-Budgets & insights
-
-Overly complex UI components
-
-These were removed to:
-
-Reduce cognitive load
-
-Improve reliability
-
-Keep ownership of backend logic
-
-Build strong fundamentals first
-
-🛠️ Environment Variables
-Backend (backend/.env)
+### Backend (`backend/.env`)
+```env
 DATABASE_URL=postgresql://postgres:<password>@localhost:5432/bahhi_khata
 JWT_SECRET=your_secret_key
 PORT=5000
 
-Frontend (frontend/.env.local)
+### Frontend ('frontend/.env.local')
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
-🔮 Planned Improvements (Future Roadmap)
-UI / UX
+🧪 Testing Status
 
-Better layout and spacing
+✅ Database constraints tested
 
-Responsive dashboard
+✅ Foreign keys verified
 
-Dark mode
+✅ API endpoints tested via Thunder Client
 
-Improved empty states
+✅ Auth middleware validated
 
-Core Features
+✅ Invalid data blocked
 
-Edit expense
+✅ Valid data persisted correctly
 
-Delete expense confirmation modal
+🧭 Phased Development Plan
+✅ Phase 0 — Foundation
 
-Expense categories management
+Completed
 
-Date-based filtering
+✅ Phase 1 — Database & Schema Evolution
 
-Advanced / Unique Features (Suggested)
+Completed
 
-Monthly expense summary
+🟡 Phase 2 — Cloud Database & Backend Hosting
 
-Smart expense tagging
+Migrate PostgreSQL to cloud (Neon / Railway)
 
-Budget alerts
+Environment separation (dev / prod)
 
-Spending pattern insights
+Secure secrets handling
 
-Offline-first support
+🟡 Phase 3 — Public App Release
 
-CSV / PDF export
+Minimal but usable UI
 
-AI-based expense categorization (future)
+Stable core flows
 
-Multi-device sync (cloud DB)
+🟡 Phase 4 — UI / UX Improvements
 
-Auth Enhancements (Later)
+Responsive layout
 
-Google OAuth
+Better spacing & navigation
+
+Optional dark mode
+
+🟡 Phase 5 — Advanced Auth & Features
+
+OAuth
 
 Password reset
 
-Email verification
+Better session handling
+
+🟡 Phase 6 — Advanced & Unique Features
+
+Monthly summaries
+
+Budget alerts
+
+Exports
+
+AI-assisted categorization (future)
 
 🎯 Project Philosophy
 
 Simple. Correct. Extensible.
 
-This project prioritizes:
+Understanding > abstraction
 
-Understanding over abstraction
+Ownership > third-party magic
 
-Ownership over third-party magic
+Clean foundations > feature count
 
-Clean foundations over flashy features
+Schema evolves with features, not before them
 
-📌 Status
+📌 Current Status
 
-✅ Backend stable
+🟢 Phase 0: Completed
 
-✅ Frontend connected
+🟢 Phase 1: Completed
 
-✅ Database integrated
-
-🚧 Features intentionally limited
-
-🚀 Ready for iteration
-
-
-🧭 Phased Development Plan
-
-This project is intentionally being developed in clear phases, with each phase focusing on one core concern.
-New features will only be added after the previous phase is stable and understood.
-
-✅ Phase 0 — Foundation (Completed)
-
-Goal: Build a clean, correct base system.
-
-What was done:
-
-Set up PostgreSQL locally
-
-Designed core database tables (users, expenses)
-
-Built custom backend using Express
-
-Implemented JWT-based authentication
-
-Connected frontend to backend using REST APIs
-
-Removed Supabase and unnecessary abstractions
-
-Cleaned frontend and backend structure
-
-Verified end-to-end flow (register → login → expenses)
-
-Outcome:
-A stable MVP with full ownership of backend, database, and authentication.
-
-🟡 Phase 1 — Database & Schema Evolution (Planned)
-
-Goal: Prepare database for future features.
-
-Planned changes:
-
-Add new tables as features are introduced (not in advance)
-
-Normalize schema where needed
-
-Introduce foreign key constraints properly
-
-Add indexes for frequently queried fields
-
-Improve date-based querying and aggregations
-
-Reasoning:
-Schema will evolve with features, not before them, to avoid premature complexity.
-
-🟡 Phase 2 — Cloud Database & Backend Hosting (Planned)
-
-Goal: Move from local setup to a managed environment.
-
-Planned changes:
-
-Migrate PostgreSQL to a cloud provider (e.g. Neon / Railway / Supabase DB)
-
-Update backend connection string
-
-Add environment-based configuration
-
-Ensure secure secrets handling
-
-Enable basic logging and monitoring
-
-Reasoning:
-Cloud setup will make the app accessible, scalable, and production-like.
-
-🟡 Phase 3 — Public App Release (Minimal UI) (Planned)
-
-Goal: Make the app usable by real users with the simplest possible UI.
-
-Planned changes:
-
-Keep UI minimal and functional
-
-Focus on clarity over aesthetics
-
-Ensure all core flows are stable
-
-Handle edge cases and errors gracefully
-
-Reasoning:
-A simple, working app is more valuable than a complex, unfinished one.
-
-🟡 Phase 4 — UI / UX Improvements (Planned)
-
-Goal: Improve usability and visual clarity.
-
-Planned changes:
-
-Better layout and spacing
-
-Improved mobile responsiveness
-
-Cleaner navigation
-
-Consistent design language
-
-Optional dark mode
-
-Reasoning:
-UI improvements will be done only after core functionality is proven stable.
-
-🟡 Phase 5 — Advanced Features & Auth Enhancements (Planned)
-
-Goal: Extend functionality without breaking the core system.
-
-Planned features:
-
-OAuth-based authentication (Google, etc.)
-
-Password reset and account recovery
-
-Better session handling
-
-Role-based access (if needed)
-
-Reasoning:
-Advanced authentication will be added after understanding and stabilizing JWT-based auth.
-
-🟡 Phase 6 — Advanced & Unique Features (Exploratory)
-
-Goal: Differentiate the app from generic expense trackers.
-
-Possible features (subject to validation):
-
-Smart categorization of expenses
-
-Monthly and yearly summaries
-
-Budget alerts and thresholds
-
-Export (CSV / PDF)
-
-Spending pattern insights
-
-Offline-first support
-
-AI-assisted tagging or summaries (future exploration)
-
-Reasoning:
-These features will be added selectively, based on learning goals and project direction.
-
-📌 Development Philosophy
-
-Features are added only when needed
-
-Each phase is completed before moving forward
-
-Understanding > speed
-
-Clean architecture > feature count
-
-No premature optimization or abstraction
-
-📍 Current Status
-
-Phase 0: ✅ Completed
-
-Phase 1+: ⏳ Planned
+🚧 Ready for Phase 2
